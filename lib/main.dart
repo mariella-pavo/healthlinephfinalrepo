@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'screens/login.dart';
 import 'screens/dashboard.dart';
@@ -22,15 +21,43 @@ class HealthLineApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         fontFamily: 'Roboto',
-        scaffoldBackgroundColor: Colors.black,
+        scaffoldBackgroundColor: const Color(0xFF101010),
       ),
       initialRoute: '/',
-      routes: {
-        '/': (context) => const LoginScreen(),
-        '/dashboard': (context) => const DashboardScreen(),
-        '/appointments': (context) => const AppointmentsScreen(),
-        '/messages': (context) => const MessagesScreen(),
-        '/profile-settings': (context) => const ProfileSettingsScreen(),
+      onGenerateRoute: (settings) {
+        Widget page;
+
+        switch (settings.name) {
+          case '/':
+            page = const LoginScreen();
+            break;
+
+          case '/dashboard':
+            page = const DashboardScreen();
+            break;
+
+          case '/appointments':
+            page = const AppointmentsScreen();
+            break;
+
+          case '/messages':
+            page = const MessagesScreen();
+            break;
+
+          case '/profile-settings':
+            page = const ProfileSettingsScreen();
+            break;
+
+          default:
+            page = const LoginScreen();
+        }
+
+        return PageRouteBuilder(
+          settings: settings,
+          pageBuilder: (context, animation, secondaryAnimation) => page,
+          transitionDuration: Duration.zero,
+          reverseTransitionDuration: Duration.zero,
+        );
       },
     );
   }

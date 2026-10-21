@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class HealthLineBottomNavigation extends StatelessWidget {
@@ -9,22 +8,9 @@ class HealthLineBottomNavigation extends StatelessWidget {
     required this.selectedIndex,
   });
 
-  static const Color _barColor = Color(0xFF4B3A3A);
-  static const Color _activeRed = Color(0xFFFF3038);
-
-  static const List<IconData> _icons = [
-    Icons.home_outlined,
-    Icons.calendar_month_outlined,
-    Icons.chat_bubble_outline,
-    Icons.settings_outlined,
-  ];
-
-  static const List<String> _labels = [
-    'Home',
-    'Appointments',
-    'Messages',
-    'Settings',
-  ];
+  static const Color _surface = Color(0xFF211D1D);
+  static const Color _accent = Color(0xFFFF454D);
+  static const Color _muted = Color(0xFFAAAAAA);
 
   static const List<String> _routes = [
     '/dashboard',
@@ -33,42 +19,73 @@ class HealthLineBottomNavigation extends StatelessWidget {
     '/profile-settings',
   ];
 
+  static const List<IconData> _icons = [
+    Icons.home_rounded,
+    Icons.calendar_month_rounded,
+    Icons.chat_bubble_outline_rounded,
+    Icons.settings_outlined,
+  ];
+
+  static const List<String> _labels = [
+    'Home',
+    'Schedule',
+    'Messages',
+    'Settings',
+  ];
+
+  void _selectTab(BuildContext context, int index) {
+    if (index == selectedIndex) return;
+
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      _routes[index],
+      (route) => false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       top: false,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
+        padding: const EdgeInsets.fromLTRB(18, 8, 18, 10),
         child: Container(
-          height: 56,
+          height: 62,
           decoration: BoxDecoration(
-            color: _barColor,
-            borderRadius: BorderRadius.circular(28),
+            color: _surface,
+            borderRadius: BorderRadius.circular(24),
+            border: Border.all(color: Colors.white.withAlpha(18)),
           ),
           child: Row(
-            children: List.generate(4, (index) {
+            children: List.generate(_labels.length, (index) {
+              final selected = index == selectedIndex;
+
               return Expanded(
                 child: InkWell(
-                  onTap: () {
-                    if (index == selectedIndex) return;
-
-                    Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      _routes[index],
-                      (route) => false,
-                    );
-                  },
-                  borderRadius: BorderRadius.circular(28),
+                  onTap: () => _selectTab(context, index),
+                  borderRadius: BorderRadius.circular(24),
                   child: SizedBox(
-                    height: 56,
-                    child: Center(
-                      child: Icon(
-                        _icons[index],
-                        size: 23,
-                        color: selectedIndex == index
-                            ? _activeRed
-                            : Colors.white,
-                      ),
+                    height: 62,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          _icons[index],
+                          color: selected ? _accent : _muted,
+                          size: 22,
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          _labels[index],
+                          style: TextStyle(
+                            color: selected ? Colors.white : _muted,
+                            fontSize: 9,
+                            fontWeight: selected
+                                ? FontWeight.w600
+                                : FontWeight.w400,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),

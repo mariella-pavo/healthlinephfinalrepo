@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import '../widgets/bottom_navigation.dart';
 import 'chat_detail.dart';
@@ -5,25 +6,27 @@ import 'chat_detail.dart';
 class MessagesScreen extends StatelessWidget {
   const MessagesScreen({super.key});
 
-  static const Color background = Colors.black;
-  static const Color panelGrey = Color(0xFF707070);
-  static const Color mutedText = Color(0xFFE0E0E0);
+  static const Color background = Color(0xFF101010);
+  static const Color surface = Color(0xFF1C1A1A);
+  static const Color mauve = Color(0xFFB78A9B);
+  static const Color mutedText = Color(0xFFB8B2B5);
 
   final List<Map<String, String>> alerts = const [
     {
       'title': 'Dr. Zana would like your rating!',
       'message':
-          'Share your experience with Dr. Zana and help other patients.'
+          'Share your experience with Dr. Zana and help other patients.',
     },
     {
-      'title': 'Dr. Ken is now available. Would you like to book a consult?',
+      'title':
+          'Dr. Ken is now available. Would you like to book a consult?',
       'message':
-          'Dr. Ken is available for consultation. You can explore booking options.'
+          'Dr. Ken is available for consultation. You can explore booking options.',
     },
     {
       'title': 'Rate United Health clinic and earn 5 points.',
       'message':
-          'Leave a rating for United Health clinic to earn 5 points.'
+          'Leave a rating for United Health clinic to earn 5 points.',
     },
   ];
 
@@ -63,177 +66,306 @@ class MessagesScreen extends StatelessWidget {
           children: [
             Expanded(
               child: ListView(
-                padding: const EdgeInsets.fromLTRB(19, 12, 19, 20),
+                padding: const EdgeInsets.fromLTRB(20, 18, 20, 24),
                 children: [
                   // Header
                   Row(
                     children: [
-                      IconButton(
-                        onPressed: () {
-                          Navigator.pushNamedAndRemoveUntil(
-                            context,
-                            '/dashboard',
-                            (route) => false,
-                          );
-                        },
-                        padding: EdgeInsets.zero,
-                        constraints: const BoxConstraints(
-                          minWidth: 22,
-                          minHeight: 28,
-                        ),
-                        icon: const Icon(
-                          Icons.arrow_back,
-                          color: Colors.white,
-                          size: 17,
+                      Material(
+                        color: surface,
+                        borderRadius: BorderRadius.circular(14),
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(14),
+                          onTap: () {
+                            Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              '/dashboard',
+                              (route) => false,
+                            );
+                          },
+                          child: const SizedBox(
+                            width: 44,
+                            height: 44,
+                            child: Icon(
+                              Icons.arrow_back_rounded,
+                              color: Colors.white,
+                              size: 21,
+                            ),
+                          ),
                         ),
                       ),
-                      const SizedBox(width: 3),
-                      const Text(
-                        'Messages',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 13,
+                      const SizedBox(width: 14),
+                      const Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Messages',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 4),
+                            Text(
+                              'Your notifications and conversations',
+                              style: TextStyle(
+                                color: mutedText,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width: 44,
+                        height: 44,
+                        decoration: BoxDecoration(
+                          color: mauve.withAlpha(30),
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        child: const Icon(
+                          Icons.mark_chat_unread_outlined,
+                          color: mauve,
+                          size: 22,
                         ),
                       ),
                     ],
                   ),
 
-                  const SizedBox(height: 17),
+                  const SizedBox(height: 30),
 
-                  // Alerts section
-                  const Text(
-                    'Alerts',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                    ),
+                  // Alerts heading
+                  Row(
+                    children: [
+                      const Expanded(
+                        child: Text(
+                          'Alerts',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 19,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 5,
+                        ),
+                        decoration: BoxDecoration(
+                          color: mauve.withAlpha(30),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: const Text(
+                          'Notifications',
+                          style: TextStyle(
+                            color: mauve,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
 
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 14),
 
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 7,
-                    ),
-                    decoration: BoxDecoration(
-                      color: panelGrey,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Column(
-                      children: List.generate(alerts.length, (index) {
-                        final alert = alerts[index];
-
-                        return InkWell(
+                  // Alert cards
+                  ...alerts.map((alert) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Material(
+                        color: surface,
+                        borderRadius: BorderRadius.circular(18),
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(18),
                           onTap: () => _openDetails(
                             context,
                             title: alert['title']!,
                             message: alert['message']!,
                           ),
-                          borderRadius: BorderRadius.circular(10),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 3,
-                            ),
+                            padding: const EdgeInsets.all(15),
                             child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const CircleAvatar(
-                                  radius: 10,
-                                  backgroundColor: Color(0xFFD9D9D9),
+                                Container(
+                                  width: 44,
+                                  height: 44,
+                                  decoration: BoxDecoration(
+                                    color: mauve.withAlpha(28),
+                                    borderRadius: BorderRadius.circular(14),
+                                  ),
+                                  child: const Icon(
+                                    Icons.notifications_active_outlined,
+                                    color: mauve,
+                                    size: 22,
+                                  ),
                                 ),
-                                const SizedBox(width: 6),
+                                const SizedBox(width: 13),
                                 Expanded(
-                                  child: Text(
-                                    alert['title']!,
-                                    style: const TextStyle(
-                                      color: mutedText,
-                                      fontSize: 7,
-                                    ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        alert['title']!,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w600,
+                                          height: 1.4,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 6),
+                                      Text(
+                                        alert['message']!,
+                                        style: const TextStyle(
+                                          color: mutedText,
+                                          fontSize: 12,
+                                          height: 1.5,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                                 const SizedBox(width: 4),
                                 const Icon(
-                                  Icons.chevron_right,
-                                  color: Colors.white54,
-                                  size: 13,
+                                  Icons.chevron_right_rounded,
+                                  color: mutedText,
+                                  size: 22,
                                 ),
                               ],
                             ),
                           ),
-                        );
-                      }),
-                    ),
+                        ),
+                      ),
+                    );
+                  }),
+
+                  const SizedBox(height: 24),
+
+                  // Chats heading
+                  Row(
+                    children: [
+                      const Expanded(
+                        child: Text(
+                          'Chats',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 19,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        '${hospitals.length} conversations',
+                        style: const TextStyle(
+                          color: mutedText,
+                          fontSize: 11,
+                        ),
+                      ),
+                    ],
                   ),
 
-                  const SizedBox(height: 25),
+                  const SizedBox(height: 14),
 
-                  // Chats section
-                  const Text(
-                    'Chats',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-
-                  const SizedBox(height: 21),
-
+                  // Conversation list
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 7,
-                    ),
                     decoration: BoxDecoration(
-                      color: panelGrey,
-                      borderRadius: BorderRadius.circular(15),
+                      color: surface,
+                      borderRadius: BorderRadius.circular(20),
                     ),
                     child: Column(
                       children: List.generate(hospitals.length, (index) {
                         final hospital = hospitals[index];
 
-                        return InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => ChatDetailScreen(
-                                  hospital: hospital,
-                                  ),
-                                  ),
-                                  );
-                                  },
-                          borderRadius: BorderRadius.circular(10),
-                          child: SizedBox(
-                            height: 28,
-                            child: Row(
-                              children: [
-                                const CircleAvatar(
-                                  radius: 10,
-                                  backgroundColor: Color(0xFFD9D9D9),
-                                ),
-                                const SizedBox(width: 6),
-                                Expanded(
-                                  child: Text(
-                                    hospital,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                      color: mutedText,
-                                      fontSize: 7,
+                        return Column(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => ChatDetailScreen(
+                                      hospital: hospital,
                                     ),
                                   ),
+                                );
+                              },
+                              borderRadius: BorderRadius.circular(16),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 14,
+                                  vertical: 13,
                                 ),
-                                const SizedBox(width: 4),
-                                const Icon(
-                                  Icons.chevron_right,
-                                  color: Colors.white54,
-                                  size: 13,
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      width: 46,
+                                      height: 46,
+                                      decoration: BoxDecoration(
+                                        color: mauve.withAlpha(28),
+                                        borderRadius:
+                                            BorderRadius.circular(16),
+                                      ),
+                                      child: const Icon(
+                                        Icons.local_hospital_outlined,
+                                        color: mauve,
+                                        size: 23,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 13),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            hospital,
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w600,
+                                              height: 1.4,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 5),
+                                          const Text(
+                                            'Tap to open conversation',
+                                            style: TextStyle(
+                                              color: mutedText,
+                                              fontSize: 11,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    const Icon(
+                                      Icons.chevron_right_rounded,
+                                      color: mutedText,
+                                      size: 22,
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
-                          ),
+                            if (index != hospitals.length - 1)
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 73),
+                                child: Divider(
+                                  height: 1,
+                                  thickness: 0.5,
+                                  color: Colors.white.withAlpha(18),
+                                ),
+                              ),
+                          ],
                         );
                       }),
                     ),
@@ -242,7 +374,7 @@ class MessagesScreen extends StatelessWidget {
               ),
             ),
 
-            // Shared bottom navigation; Messages is active.
+            // Messages tab is active.
             const HealthLineBottomNavigation(
               selectedIndex: 2,
             ),
@@ -253,9 +385,7 @@ class MessagesScreen extends StatelessWidget {
   }
 }
 
-// Temporary destination for a selected alert or conversation.
-// Replace this with the real chat screen when messaging is implemented.
-
+// Alert details screen
 class MessageDetailScreen extends StatelessWidget {
   final String title;
   final String message;
@@ -269,13 +399,17 @@ class MessageDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: MessagesScreen.background,
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: MessagesScreen.background,
         foregroundColor: Colors.white,
-        title: Text(
-          title,
-          style: const TextStyle(fontSize: 14),
+        elevation: 0,
+        title: const Text(
+          'Notification',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
       body: Padding(
@@ -283,21 +417,36 @@ class MessageDetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Container(
+              width: 54,
+              height: 54,
+              decoration: BoxDecoration(
+                color: MessagesScreen.mauve.withAlpha(30),
+                borderRadius: BorderRadius.circular(17),
+              ),
+              child: const Icon(
+                Icons.notifications_active_outlined,
+                color: MessagesScreen.mauve,
+                size: 27,
+              ),
+            ),
+            const SizedBox(height: 22),
             Text(
               title,
               style: const TextStyle(
                 color: Colors.white,
-                fontSize: 18,
+                fontSize: 21,
                 fontWeight: FontWeight.bold,
+                height: 1.4,
               ),
             ),
-            const SizedBox(height: 14),
+            const SizedBox(height: 12),
             Text(
               message,
               style: const TextStyle(
-                color: Colors.white70,
-                fontSize: 13,
-                height: 1.6,
+                color: MessagesScreen.mutedText,
+                fontSize: 14,
+                height: 1.7,
               ),
             ),
           ],

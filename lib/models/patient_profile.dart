@@ -1,4 +1,5 @@
 
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 
 class PatientProfile extends ChangeNotifier {
@@ -12,6 +13,7 @@ class PatientProfile extends ChangeNotifier {
   String address = '';
   String medicalNotes = '';
   String? photoUrl;
+  Uint8List? photoBytes;
 
   int get age {
     if (dateOfBirth == null) return 0;
@@ -35,6 +37,7 @@ class PatientProfile extends ChangeNotifier {
     required String address,
     required String medicalNotes,
     String? photoUrl,
+    Uint8List? photoBytes,
   }) {
     this.name = name;
     this.dateOfBirth = dateOfBirth;
@@ -42,6 +45,8 @@ class PatientProfile extends ChangeNotifier {
     this.address = address;
     this.medicalNotes = medicalNotes;
     this.photoUrl = photoUrl;
+    this.photoBytes = photoBytes;
+
     notifyListeners();
   }
 }
