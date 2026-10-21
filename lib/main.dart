@@ -1,5 +1,10 @@
+
 import 'package:flutter/material.dart';
 import 'screens/login.dart';
+import 'screens/dashboard.dart';
+import 'screens/appointments.dart';
+import 'screens/messages.dart';
+import 'screens/profileandsettings.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +24,14 @@ class HealthLineApp extends StatelessWidget {
         fontFamily: 'Roboto',
         scaffoldBackgroundColor: Colors.black,
       ),
-      home: const LoginScreen(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const LoginScreen(),
+        '/dashboard': (context) => const DashboardScreen(),
+        '/appointments': (context) => const AppointmentsScreen(),
+        '/messages': (context) => const MessagesScreen(),
+        '/profile-settings': (context) => const ProfileSettingsScreen(),
+      },
     );
   }
 }

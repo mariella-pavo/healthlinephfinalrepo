@@ -459,7 +459,7 @@ class AppointmentsScreen extends StatelessWidget {
             Icons.calendar_month_outlined,
             'Schedule',
             true,
-            () {},
+            () => Navigator.pushNamed(context, '/appointments'),
           ),
           _navItem(
             context,

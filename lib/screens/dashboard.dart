@@ -123,7 +123,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
                         Padding(
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 21,
+                            horizontal: 20,
                           ),
                           child: Row(
                             mainAxisAlignment:
@@ -184,7 +184,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Widget _buildPatientHeader(PatientProfile profile) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 21),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(
         children: [
           GestureDetector(
@@ -274,7 +274,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Widget _buildSearchField() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 23),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: SizedBox(
         height: 44,
         child: TextField(
@@ -329,7 +329,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Widget _buildSectionTitle(String title) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 21),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Text(
         title,
         style: const TextStyle(
@@ -345,7 +345,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return SizedBox(
       height: 125,
       child: ListView.separated(
-        padding: const EdgeInsets.symmetric(horizontal: 21),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         scrollDirection: Axis.horizontal,
         itemCount: _services.length,
         separatorBuilder: (_, _) => const SizedBox(width: 11),
@@ -412,7 +412,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return SizedBox(
       height: 120,
       child: ListView.separated(
-        padding: const EdgeInsets.symmetric(horizontal: 21),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         scrollDirection: Axis.horizontal,
         itemCount: doctors.length,
         separatorBuilder: (_, _) => const SizedBox(width: 15),
@@ -526,7 +526,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         height: 56,
         decoration: BoxDecoration(
           color: const Color(0xFF4B3A3A),
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(28),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -535,7 +535,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
               icon: Icons.home_outlined,
               label: 'Home',
               selected: true,
-              onTap: () {},
+              onTap: () => Navigator.pushNamedAndRemoveUntil(
+                context,
+                '/dashboard',
+                (route) => false,
+                ),
             ),
             _buildNavItem(
               icon: Icons.calendar_month_outlined,
@@ -567,18 +571,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
     required bool selected,
     required VoidCallback onTap,
   }) {
-    return IconButton(
-      onPressed: onTap,
-      tooltip: label,
-      padding: EdgeInsets.zero,
-      constraints: const BoxConstraints(
-        minWidth: 30,
-        minHeight: 32,
-      ),
-      icon: Icon(
-        icon,
-        color: selected ? _activeRed : Colors.white,
-        size: 16,
+    return Expanded(
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(28),
+        child: SizedBox(
+          height: 56,
+          child: Center(
+            child: Icon(
+              icon,
+              color: selected ? _activeRed : Colors.white,
+              size: 23,
+            ),
+          ),
+        ),
       ),
     );
   }

@@ -7,18 +7,41 @@ class PatientProfile extends ChangeNotifier {
   static final PatientProfile instance = PatientProfile._();
 
   String name = 'Joyce Jimenez';
-  int age = 25;
+  DateTime? dateOfBirth;
+  String phoneNumber = '';
+  String address = '';
+  String medicalNotes = '';
   String? photoUrl;
 
+  int get age {
+    if (dateOfBirth == null) return 0;
+
+    final today = DateTime.now();
+    int result = today.year - dateOfBirth!.year;
+
+    if (today.month < dateOfBirth!.month ||
+        (today.month == dateOfBirth!.month &&
+            today.day < dateOfBirth!.day)) {
+      result--;
+    }
+
+    return result;
+  }
+
   void updateProfile({
-    String? name,
-    int? age,
+    required String name,
+    required DateTime? dateOfBirth,
+    required String phoneNumber,
+    required String address,
+    required String medicalNotes,
     String? photoUrl,
   }) {
-    if (name != null) this.name = name;
-    if (age != null) this.age = age;
-    if (photoUrl != null) this.photoUrl = photoUrl;
-
+    this.name = name;
+    this.dateOfBirth = dateOfBirth;
+    this.phoneNumber = phoneNumber;
+    this.address = address;
+    this.medicalNotes = medicalNotes;
+    this.photoUrl = photoUrl;
     notifyListeners();
   }
 }
